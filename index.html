@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CCJ Solutions — Control total de tu taller automotriz</title>
+  <meta name="description" content="CCJ Solutions centraliza la entrada, seguimiento y reparación de vehículos en una sola plataforma. Software de gestión para talleres y empresas automotrices." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       CUSTOM PROPERTIES / DESIGN TOKENS
+       ============================================ */
+    :root {
+      --primary: #EE2E31;
+      --primary-hover: #d42528;
+      --primary-dark: #b81e20;
+      --parchment: #F4EDEA;
+      --parchment-dark: #E8DDD8;
+      --black: #0D0D0D;
+      --black-light: #1A1A1A;
+      --white: #FFFFFF;
+      --gray-100: #F5F5F5;
+      --gray-300: #C4C4C4;
+      --gray-500: #6B6B6B;
+      --gray-700: #3A3A3A;
+      --placeholder-bg: #D1C9C5;
+
+      --font-headline: 'Barlow Condensed', sans-serif;
+      --font-body: 'IBM Plex Sans', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+
+      --max-width: 1200px;
+      --nav-height: 72px;
+      --section-padding: 80px 0;
+
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--black);
+      background-color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul, ol {
+      list-style: none;
+    }
+
+    button, input, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      border: none;
+      outline: none;
+      background: none;
+    }
+
+    /* ============================================
+       UTILITIES
+       ============================================ */
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Fade-in animation classes */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    }
+
+    .fade-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .fade-in-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    }
+
+    .fade-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Staggered children */
+    .stagger-children > * {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+    }
+
+    .stagger-children.visible > *:nth-child(1) { transition-delay: 0.05s; }
+    .stagger-children.visible > *:nth-child(2) { transition-delay: 0.12s; }
+    .stagger-children.visible > *:nth-child(3) { transition-delay: 0.19s; }
+    .stagger-children.visible > *:nth-child(4) { transition-delay: 0.26s; }
+    .stagger-children.visible > *:nth-child(5) { transition-delay: 0.33s; }
+    .stagger-children.visible > *:nth-child(6) { transition-delay: 0.40s; }
+
+    .stagger-children.visible > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Placeholder divs for images */
+    .placeholder {
+      background-color: var(--placeholder-bg);
+      border: 2px dashed var(--gray-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-500);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      text-align: center;
+      padding: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 14px 32px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.25s var(--ease-out);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(238, 46, 49, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--white);
+    }
+
+    .btn-outline:hover {
+      background: var(--white);
+      color: var(--black);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--black);
+      border: 2px solid var(--black);
+    }
+
+    .btn-outline-dark:hover {
+      background: var(--black);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    /* Section labels */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--gray-500);
+      max-width: 560px;
+    }
+
+    /* ============================================
+       1. NAVBAR
+       ============================================ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--nav-height);
+      background: rgba(13, 13, 13, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(13, 13, 13, 0.97);
+      box-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .navbar__logo {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navbar__logo-mark {
+      width: 8px;
+      height: 28px;
+      background: var(--primary);
+      display: inline-block;
+    }
+
+    .navbar__links {
+      display: none;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .navbar__link {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.02em;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    .navbar__link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s var(--ease-out);
+    }
+
+    .navbar__link:hover {
+      color: var(--white);
+    }
+
+    .navbar__link:hover::after {
+      width: 100%;
+    }
+
+    .navbar__cta {
+      display: none;
+    }
+
+    .navbar__cta .btn {
+      font-size: 13px;
+      padding: 10px 24px;
+    }
+
+    /* Mobile menu toggle */
+    .navbar__toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1001;
+    }
+
+    .navbar__toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .navbar__toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .navbar__toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .navbar__toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-height);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(13, 13, 13, 0.98);
+      z-index: 999;
+      padding: 40px 24px;
+      flex-direction: column;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    .mobile-menu a {
+      font-family: var(--font-headline);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--white);
+      transition: color 0.2s ease;
+    }
+
+    .mobile-menu a:hover {
+      color: var(--primary);
+    }
+
+    .mobile-menu .btn {
+      margin-top: 16px;
+      width: 100%;
+    }
+
+    /* ============================================
+       2. HERO
+       ============================================ */
+    .hero {
+      position: relative;
+      background: var(--black);
+      padding-top: calc(var(--nav-height) + 64px);
+      padding-bottom: 80px;
+      overflow: hidden;
+    }
+
+    /* Grid texture overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* Subtle noise texture */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+      background-size: 256px;
+      pointer-events: none;
+    }
+
+    /* Red accent line */
+    .hero__accent-line {
+      position: absolute;
+      top: var(--nav-height);
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--primary);
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero__content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero__text {
+      max-width: 600px;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(238, 46, 49, 0.12);
+      border: 1px solid rgba(238, 46, 49, 0.25);
+      padding: 6px 14px;
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+
+    .hero__badge-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero__badge-text {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--primary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero__title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: 48px;
+      line-height: 1.05;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero__title span {
+      color: var(--primary);
+    }
+
+    .hero__subtitle {
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 36px;
+      max-width: 480px;
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .hero__image {
+      width: 100%;
+      height: auto;
+      max-height: 480px;
+      border-radius: 8px;
+      object-fit: contain;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ============================================
+       3. LOGOS / PRUEBA SOCIAL
+       ============================================ */
+    .social-proof {
+      background: var(--parchment);
+      padding: 48px 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .social-proof__label {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 32px;
+    }
+
+    .social-proof__logos {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+
+    .social-proof__logos::before,
+    .social-proof__logos::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .social-proof__logos::before {
+      left: 0;
+      background: linear-gradient(to right, var(--parchment), transparent);
+    }
+
+    .social-proof__logos::after {
+      right: 0;
+      background: linear-gradient(to left, var(--parchment), transparent);
+    }
+
+    .social-proof__track {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      width: max-content;
+      animation: marquee 25s linear infinite;
+    }
+
+    .social-proof__track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .social-proof__logo {
+      width: 140px;
+      height: 56px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       4. PROBLEMA → SOLUCIÓN
+       ============================================ */
+    .problem-solution {
+      background: var(--white);
+      padding: var(--section-padding);
+    }
+
+    .problem-solution__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+
+    /* Problems column */
+    .problems {
+      position: relative;
+    }
+
+    .problems__list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 32px;
+    }
+
+    .problem-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .problem-item__icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: rgba(238, 46, 49, 0.08);
+      border: 1px solid rgba(238, 46, 49, 0.15);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .problem-item__icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--primary);
+    }
+
+    .problem-item__content h4 {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 4px;
+      color: var(--black);
+    }
+
+    .problem-item__content p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray-500);
+    }
+
+    /* Solutions column */
+    .solutions__list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 32px;
+    }
+
+    .solution-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 20px;
+      background: var(--parchment);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 4px 4px 0;
+      transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+    }
+
+    .solution-item:hover {
+      transform: translateX(4px);
+      box-shadow: -4px 0 0 var(--primary);
+    }
+
+    .solution-item__icon {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .solution-item__icon svg {
+      width: 20px;
+      height: 20px;
+      color: var(--white);
+    }
+
+    .solution-item__content h4 {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 4px;
+      color: var(--black);
+    }
+
+    .solution-item__content p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--gray-500);
+    }
+
+    /* Divider arrow for desktop */
+    .ps-divider {
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ps-divider__arrow {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(238, 46, 49, 0.3);
+    }
+
+    .ps-divider__arrow svg {
+      width: 24px;
+      height: 24px;
+      color: var(--white);
+    }
+
+    /* ============================================
+       5. FUNCIONALIDADES CLAVE
+       ============================================ */
+    .features {
+      background: var(--parchment);
+      padding: var(--section-padding);
+    }
+
+    .features__header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .features__header .section-subtitle {
+      margin: 0 auto;
+    }
+
+    .features__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      padding: 32px 28px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease-out);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border-color: rgba(238, 46, 49, 0.15);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-card__icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(238, 46, 49, 0.08);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .feature-card__icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--primary);
+    }
+
+    .feature-card__title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 19px;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .feature-card__desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--gray-500);
+    }
+
+
+
+    /* ============================================
+       7. ESTADÍSTICAS
+       ============================================ */
+    .stats {
+      background: var(--primary);
+      padding: 64px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Diagonal line pattern */
+    .stats::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 30px,
+        rgba(255, 255, 255, 0.04) 30px,
+        rgba(255, 255, 255, 0.04) 31px
+      );
+      pointer-events: none;
+    }
+
+    .stats .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .stats__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px 24px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-item__value {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: 42px;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-item__label {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.4;
+      max-width: 200px;
+      margin: 0 auto;
+    }
+
+    /* ============================================
+       8. TESTIMONIOS
+       ============================================ */
+    .testimonials {
+      background: var(--parchment);
+      padding: var(--section-padding);
+    }
+
+    .testimonials__header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .testimonials__header .section-subtitle {
+      margin: 0 auto;
+    }
+
+    .testimonials__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: var(--white);
+      padding: 32px 28px;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      position: relative;
+    }
+
+    .testimonial-card__quote-mark {
+      font-family: var(--font-headline);
+      font-size: 64px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 8px;
+      opacity: 0.3;
+    }
+
+    .testimonial-card__text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--gray-700);
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .testimonial-card__author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .testimonial-card__photo {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      font-size: 9px;
+      object-fit: cover;
+    }
+
+    .testimonial-card__info h5 {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--black);
+    }
+
+    .testimonial-card__info p {
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+
+    /* ============================================
+       9. CTA FINAL
+       ============================================ */
+    .cta-final {
+      background: var(--black);
+      padding: var(--section-padding);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-final::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .cta-final .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-final__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .cta-final__text .section-title {
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .cta-final__text .section-subtitle {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .cta-final__form {
+      background: var(--black-light);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      padding: 36px 28px;
+    }
+
+    .cta-final__form-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      color: var(--white);
+      font-size: 15px;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .cta-final__form .btn {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .cta-final__disclaimer {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.35);
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    /* ============================================
+       10. FOOTER
+       ============================================ */
+    .footer {
+      background: var(--black);
+      padding: 48px 0 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer__content {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .footer__logo {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer__logo-mark {
+      width: 6px;
+      height: 22px;
+      background: var(--primary);
+      display: inline-block;
+    }
+
+    .footer__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer__link {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+      transition: color 0.2s ease;
+    }
+
+    .footer__link:hover {
+      color: var(--white);
+    }
+
+    .footer__divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .footer__bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer__copyright {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .footer__credits {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.2);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================
+       RESPONSIVE — TABLET (768px)
+       ============================================ */
+    @media (min-width: 768px) {
+      .hero__title {
+        font-size: 60px;
+      }
+
+      .hero__image {
+        max-height: 580px;
+      }
+
+      .section-title {
+        font-size: 40px;
+      }
+
+      .problem-solution__grid {
+        grid-template-columns: 1fr auto 1fr;
+        gap: 32px;
+      }
+
+      .ps-divider {
+        display: flex;
+      }
+
+      .features__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+
+
+      .stats__grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+      }
+
+      .testimonials__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cta-final__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 56px;
+      }
+
+      .footer__content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer__bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+    }
+
+    /* ============================================
+       RESPONSIVE — DESKTOP (1200px)
+       ============================================ */
+    @media (min-width: 1200px) {
+      .navbar__links {
+        display: flex;
+      }
+
+      .navbar__cta {
+        display: block;
+      }
+
+      .navbar__toggle {
+        display: none;
+      }
+
+      .hero {
+        padding-top: calc(var(--nav-height) + 96px);
+        padding-bottom: 96px;
+      }
+
+      .hero__title {
+        font-size: 72px;
+      }
+
+      .hero__content {
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+      }
+
+      .hero__image {
+        max-height: 680px;
+      }
+
+      .section-title {
+        font-size: 44px;
+      }
+
+      .features__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+
+
+      .stat-item__value {
+        font-size: 56px;
+      }
+
+      .testimonials__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       NAVBAR
+       ============================================ -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container">
+      <a href="#" class="navbar__logo" aria-label="CCJ Solutions — Inicio">
+        <span class="navbar__logo-mark"></span>
+        CCJ Solutions
+      </a>
+
+      <ul class="navbar__links" role="list">
+        <li><a href="#funcionalidades" class="navbar__link">Producto</a></li>
+
+        <li><a href="#testimonios" class="navbar__link">Testimonios</a></li>
+        <li><a href="#contacto" class="navbar__link">Contacto</a></li>
+      </ul>
+
+      <div class="navbar__cta">
+        <a href="#contacto" class="btn btn-primary">Solicitar Demo</a>
+      </div>
+
+      <button class="navbar__toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Menú móvil">
+    <a href="#funcionalidades" onclick="closeMobileMenu()">Producto</a>
+
+    <a href="#testimonios" onclick="closeMobileMenu()">Testimonios</a>
+    <a href="#contacto" onclick="closeMobileMenu()">Contacto</a>
+    <a href="#contacto" class="btn btn-primary" onclick="closeMobileMenu()">Solicitar Demo</a>
+  </div>
+
+  <main>
+
+    <!-- ============================================
+         SECCIÓN 1: HERO
+         ============================================ -->
+    <section class="hero" id="hero">
+      <div class="hero__accent-line"></div>
+      <div class="container">
+        <div class="hero__content">
+          <div class="hero__text fade-in">
+            <div class="hero__badge">
+              <span class="hero__badge-dot"></span>
+              <span class="hero__badge-text">Software para talleres</span>
+            </div>
+            <h1 class="hero__title">
+              Control total de tu <span>taller automotriz</span>
+            </h1>
+            <p class="hero__subtitle">
+              CCJ Solutions centraliza la entrada, seguimiento y reparación de vehículos en una sola plataforma. Menos errores, más productividad.
+            </p>
+            <div class="hero__actions">
+              <a href="#contacto" class="btn btn-primary">Solicitar Demo</a>
+
+            </div>
+          </div>
+          <img src="./assets/hero_image.png" alt="Plataforma de gestión de CCJ Solutions" class="hero__image fade-in" style="transition-delay: 0.15s;" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECCIÓN 2: LOGOS / PRUEBA SOCIAL
+         ============================================ -->
+    <section class="social-proof" id="social-proof">
+      <div class="container">
+        <p class="social-proof__label fade-in">Apoyado por muchos talleres y empresas.</p>
+        <div class="social-proof__logos">
+          <div class="social-proof__track">
+            <!-- Set 1 -->
+            <img src="./assets/logos/logo_evobike.png" alt="Evobike" class="social-proof__logo" />
+            <img src="./assets/logos/logo_1.png" alt="Taller Serviteca RRR Moya" class="social-proof__logo" />
+            <img src="./assets/logos/logo_2.png" alt="Joselito Taller de Mecanica" class="social-proof__logo" />
+            <img src="./assets/logos/logo_3.png" alt="Taller Mecanico Alcides de Zan" class="social-proof__logo" />
+            <img src="./assets/logos/logo_4.png" alt="Latam Autos" class="social-proof__logo" />
+            <img src="./assets/logos/logo_5.png" alt="Ensigna Taller Mecanico" class="social-proof__logo" />
+            <!-- Set 2 (duplicado para loop continuo) -->
+            <img src="./assets/logos/logo_evobike.png" alt="Evobike" class="social-proof__logo" aria-hidden="true" />
+            <img src="./assets/logos/logo_1.png" alt="Taller Serviteca RRR Moya" class="social-proof__logo" aria-hidden="true" />
+            <img src="./assets/logos/logo_2.png" alt="Joselito Taller de Mecanica" class="social-proof__logo" aria-hidden="true" />
+            <img src="./assets/logos/logo_3.png" alt="Taller Mecanico Alcides de Zan" class="social-proof__logo" aria-hidden="true" />
+            <img src="./assets/logos/logo_4.png" alt="Latam Autos" class="social-proof__logo" aria-hidden="true" />
+            <img src="./assets/logos/logo_5.png" alt="Ensigna Taller Mecanico" class="social-proof__logo" aria-hidden="true" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECCIÓN 3: PROBLEMA → SOLUCIÓN
+         ============================================ -->
+    <section class="problem-solution" id="problema-solucion">
+      <div class="container">
+        <div class="problem-solution__grid">
+
+          <!-- Columna: Problemas -->
+          <div class="problems fade-in-left">
+            <span class="section-label">El problema</span>
+            <h2 class="section-title">Tu taller pierde dinero cada día sin un sistema</h2>
+            <div class="problems__list">
+              <div class="problem-item">
+                <div class="problem-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                  </svg>
+                </div>
+                <div class="problem-item__content">
+                  <h4>Desorganización en ingresos</h4>
+                  <p>Vehículos que entran sin registro claro. No sabes cuántos autos tienes, en qué estado están o quién los atiende.</p>
+                </div>
+              </div>
+              <div class="problem-item">
+                <div class="problem-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                  </svg>
+                </div>
+                <div class="problem-item__content">
+                  <h4>Pérdida de historial</h4>
+                  <p>Sin un historial centralizado, cada reparación empieza de cero. Pierdes contexto, tiempo y la confianza del cliente.</p>
+                </div>
+              </div>
+              <div class="problem-item">
+                <div class="problem-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </div>
+                <div class="problem-item__content">
+                  <h4>Errores manuales constantes</h4>
+                  <p>Cuadernos, hojas de cálculo y WhatsApp no escalan. Los errores manuales generan re-trabajo y reclamos.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider arrow -->
+          <div class="ps-divider fade-in">
+            <div class="ps-divider__arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Columna: Soluciones -->
+          <div class="solutions fade-in-right">
+            <span class="section-label">La solución</span>
+            <h2 class="section-title">CCJ organiza cada paso, desde el ingreso hasta la entrega</h2>
+            <div class="solutions__list">
+              <div class="solution-item">
+                <div class="solution-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </div>
+                <div class="solution-item__content">
+                  <h4>Registro digital inmediato</h4>
+                  <p>Cada vehículo se registra con placa, VIN, fotos y observaciones. Nada se pierde, todo queda documentado.</p>
+                </div>
+              </div>
+              <div class="solution-item">
+                <div class="solution-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
+                  </svg>
+                </div>
+                <div class="solution-item__content">
+                  <h4>Historial completo y accesible</h4>
+                  <p>Consulta toda la historia de un vehículo o cliente en segundos. Reparaciones, repuestos, costos, todo en un solo lugar.</p>
+                </div>
+              </div>
+              <div class="solution-item">
+                <div class="solution-item__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+                  </svg>
+                </div>
+                <div class="solution-item__content">
+                  <h4>Automatización sin fricciones</h4>
+                  <p>Alertas automáticas, estados actualizados y reportes generados sin esfuerzo. Tu equipo se enfoca en reparar.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECCIÓN 4: FUNCIONALIDADES CLAVE
+         ============================================ -->
+    <section class="features" id="funcionalidades">
+      <div class="container">
+        <div class="features__header fade-in">
+          <span class="section-label">Funcionalidades</span>
+          <h2 class="section-title">Todo lo que tu taller necesita, en un solo lugar</h2>
+          <p class="section-subtitle">Cada módulo de CCJ fue diseñado pensando en las operaciones reales de talleres automotrices en LATAM.</p>
+        </div>
+        <div class="features__grid stagger-children">
+          <!-- Card 1 -->
+          <div class="feature-card">
+            <div class="feature-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Registro de ingreso</h3>
+            <p class="feature-card__desc">Registra cada vehículo con placa, VIN, fotos del estado y datos del propietario. Sin papeles, sin demoras.</p>
+          </div>
+          <!-- Card 2 -->
+          <div class="feature-card">
+            <div class="feature-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Seguimiento en tiempo real</h3>
+            <p class="feature-card__desc">Visualiza el estado de cada reparación al instante: recibido, en diagnóstico, en proceso, listo para entrega.</p>
+          </div>
+          <!-- Card 3 -->
+          <div class="feature-card">
+            <div class="feature-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Historial por cliente y vehículo</h3>
+            <p class="feature-card__desc">Accede al historial completo de cada cliente y cada vehículo. Reparaciones, costos, fechas y observaciones.</p>
+          </div>
+          <!-- Card 4 -->
+          <div class="feature-card">
+            <div class="feature-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Alertas automáticas</h3>
+            <p class="feature-card__desc">Notificaciones cuando un vehículo cambia de estado, cuando un trabajo se atrasa o cuando un repuesto llega.</p>
+          </div>
+          <!-- Card 5 -->
+          <div class="feature-card">
+            <div class="feature-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Reportes y métricas</h3>
+            <p class="feature-card__desc">Conoce el rendimiento de tu taller: tiempos promedio, ingresos por período, técnicos más productivos y más.</p>
+          </div>
+          <!-- Card 6 -->
+          <div class="feature-card">
+            <div class="feature-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Inventario de repuestos</h3>
+            <p class="feature-card__desc">Controla stock, movimientos y costos de repuestos. Sabe qué tienes, qué necesitas y qué se consume más.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- ============================================
+         SECCIÓN 6: ESTADÍSTICAS
+         ============================================ -->
+    <section class="stats" id="estadisticas">
+      <div class="container">
+        <div class="stats__grid stagger-children">
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="40" data-suffix="%" data-prefix="">
+              <span class="counter">0</span>%
+            </div>
+            <p class="stat-item__label">menos tiempo de registro por vehículo</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="0" data-suffix="" data-prefix="">
+              <span class="counter">0</span>
+            </div>
+            <p class="stat-item__label">vehículos perdidos en el sistema</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="200" data-suffix="" data-prefix="+">
+              +<span class="counter">0</span>
+            </div>
+            <p class="stat-item__label">talleres activos usando CCJ</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-item__value" data-target="100" data-suffix="%" data-prefix="">
+              <span class="counter">0</span>%
+            </div>
+            <p class="stat-item__label">trazabilidad por VIN o placa</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECCIÓN 7: TESTIMONIOS
+         ============================================ -->
+    <section class="testimonials" id="testimonios">
+      <div class="container">
+        <div class="testimonials__header fade-in">
+          <span class="section-label">Testimonios</span>
+          <h2 class="section-title">Lo que dicen quienes ya usan CCJ</h2>
+          <p class="section-subtitle">Talleres y empresas automotrices que transformaron su operación diaria.</p>
+        </div>
+        <div class="testimonials__grid stagger-children">
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card">
+            <div class="testimonial-card__quote-mark">"</div>
+            <p class="testimonial-card__text">Antes perdíamos vehículos en el patio. Literalmente no sabíamos cuántos teníamos. Con CCJ, cada auto tiene su ficha desde que cruza la puerta.</p>
+            <div class="testimonial-card__author">
+              <img src="./assets/avatars/avatar_1.jpg" alt="Carlos Mendoza" class="testimonial-card__photo" />
+              <div class="testimonial-card__info">
+                <h5>Carlos Mendoza</h5>
+                <p>Gerente de operaciones — AutoServicio Reynosa</p>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card">
+            <div class="testimonial-card__quote-mark">"</div>
+            <p class="testimonial-card__text">El historial por vehículo nos cambió la relación con los clientes. Ahora podemos mostrarles exactamente qué se hizo y cuándo. Eso genera confianza.</p>
+            <div class="testimonial-card__author">
+              <img src="./assets/avatars/avatar_3.jpg" alt="María Fernanda López" class="testimonial-card__photo" />
+              <div class="testimonial-card__info">
+                <h5>María Fernanda López</h5>
+                <p>Directora — MotoCenter Bogotá</p>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card">
+            <div class="testimonial-card__quote-mark">"</div>
+            <p class="testimonial-card__text">Redujimos los errores de facturación en un 60%. Los reportes automáticos me dan visibilidad que antes no tenía sobre el rendimiento del taller.</p>
+            <div class="testimonial-card__author">
+              <img src="./assets/avatars/avatar_2.jpg" alt="Roberto Díaz" class="testimonial-card__photo" />
+              <div class="testimonial-card__info">
+                <h5>Roberto Díaz</h5>
+                <p>Dueño — Taller Mecánico R&D, Lima</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECCIÓN 8: CTA FINAL / FORMULARIO
+         ============================================ -->
+    <section class="cta-final" id="contacto">
+      <div class="container">
+        <div class="cta-final__grid">
+          <div class="cta-final__text fade-in-left">
+            <span class="section-label" style="color: var(--primary);">Comienza hoy</span>
+            <h2 class="section-title" style="font-size: 40px;">¿Listo para ordenar tu taller?</h2>
+            <p class="section-subtitle">Agenda una demo personalizada con nuestro equipo. Te mostramos cómo CCJ se adapta a la operación de tu taller en menos de 30 minutos.</p>
+
+            <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 20px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--primary)" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <span style="color: rgba(255,255,255,0.65); font-size: 14px;">Demo personalizada para tu operación</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--primary)" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <span style="color: rgba(255,255,255,0.65); font-size: 14px;">Implementación en menos de 48 horas</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--primary)" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <span style="color: rgba(255,255,255,0.65); font-size: 14px;">Soporte humano en español</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-final__form fade-in-right">
+            <h3 class="cta-final__form-title">Solicitar Demo Gratuita</h3>
+            <form id="demoForm" onsubmit="handleFormSubmit(event)">
+              <div class="form-group">
+                <label for="form-name">Nombre</label>
+                <input type="text" id="form-name" name="name" placeholder="Tu nombre completo" required />
+              </div>
+              <div class="form-group">
+                <label for="form-company">Empresa</label>
+                <input type="text" id="form-company" name="company" placeholder="Nombre de tu empresa o taller" required />
+              </div>
+              <div class="form-group">
+                <label for="form-email">Correo electrónico</label>
+                <input type="email" id="form-email" name="email" placeholder="correo@empresa.com" required />
+              </div>
+              <div class="form-group">
+                <label for="form-phone">Teléfono</label>
+                <input type="tel" id="form-phone" name="phone" placeholder="+57 300 000 0000" />
+              </div>
+              <button type="submit" class="btn btn-primary" id="form-submit">Solicitar Demo Gratuita</button>
+            </form>
+            <p class="cta-final__disclaimer">Sin compromisos. Sin tarjeta de crédito.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer__content">
+        <a href="#" class="footer__logo">
+          <span class="footer__logo-mark"></span>
+          CCJ Solutions
+        </a>
+        <nav class="footer__links" aria-label="Links del footer">
+          <a href="#funcionalidades" class="footer__link">Producto</a>
+          <a href="#" class="footer__link">Precios</a>
+          <a href="#contacto" class="footer__link">Contacto</a>
+          <a href="#" class="footer__link">Política de privacidad</a>
+        </nav>
+      </div>
+      <div class="footer__divider" style="margin: 24px 0;"></div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; 2025 CCJ Solutions. Todos los derechos reservados.</p>
+        <p class="footer__credits">Hecho para talleres que quieren crecer</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+  <script>
+    /* ==========================================
+       NAVBAR — Scroll effect & mobile toggle
+       ========================================== */
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    // Sticky navbar background on scroll
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile menu toggle
+    navToggle.addEventListener('click', () => {
+      const isActive = navToggle.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+      navToggle.setAttribute('aria-expanded', isActive);
+      document.body.style.overflow = isActive ? 'hidden' : '';
+    });
+
+    function closeMobileMenu() {
+      navToggle.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    /* ==========================================
+       SCROLL ANIMATIONS — IntersectionObserver
+       ========================================== */
+    const animatedElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .stagger-children');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.15
+    };
+
+    const animationObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          animationObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    animatedElements.forEach(el => {
+      animationObserver.observe(el);
+    });
+
+    /* ==========================================
+       COUNTER ANIMATION — Stats section
+       ========================================== */
+    const counters = document.querySelectorAll('.counter');
+    let countersAnimated = false;
+
+    function animateCounters() {
+      if (countersAnimated) return;
+      countersAnimated = true;
+
+      counters.forEach(counter => {
+        const parent = counter.closest('.stat-item__value');
+        const target = parseInt(parent.getAttribute('data-target'), 10);
+        const duration = 2000; // ms
+        const startTime = performance.now();
+
+        function updateCounter(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          // Ease-out cubic
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const currentValue = Math.round(eased * target);
+
+          counter.textContent = currentValue;
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          }
+        }
+
+        requestAnimationFrame(updateCounter);
+      });
+    }
+
+    // Observe stats section
+    const statsSection = document.getElementById('estadisticas');
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    statsObserver.observe(statsSection);
+
+    /* ==========================================
+       FORM HANDLING
+       ========================================== */
+    function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const submitBtn = document.getElementById('form-submit');
+      const originalText = submitBtn.textContent;
+
+      // Simulate sending
+      submitBtn.textContent = 'Enviando...';
+      submitBtn.style.opacity = '0.7';
+      submitBtn.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        submitBtn.textContent = '✓ Solicitud enviada';
+        submitBtn.style.background = '#1a8f3a';
+        submitBtn.style.opacity = '1';
+
+        // Reset after 3s
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.style.background = '';
+          submitBtn.style.opacity = '';
+          submitBtn.style.pointerEvents = '';
+          document.getElementById('demoForm').reset();
+        }, 3000);
+      }, 1500);
+    }
+
+    /* ==========================================
+       SMOOTH SCROLL — Navbar links
+       ========================================== */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          const offsetTop = targetEl.offsetTop - 72; // navbar height
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    /* ==========================================
+       ACTIVE NAV LINK TRACKING
+       ========================================== */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.navbar__link');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.style.color = '';
+            if (link.getAttribute('href') === '#' + id) {
+              link.style.color = 'var(--white)';
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+  </script>
+
+</body>
+</html>
