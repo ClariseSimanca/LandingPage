@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CCJ Solutions — Control total de tu taller automotriz</title>
-  <meta name="description" content="CCJ Solutions centraliza la entrada, seguimiento y reparación de vehículos en una sola plataforma. Software de gestión para talleres y empresas automotrices." />
+  <title>EvoBike — Control total de tu taller automotriz</title>
+  <meta name="description" content="EvoBike centraliza la entrada, seguimiento y reparación de vehículos en una sola plataforma. Software de gestión para talleres y empresas automotrices." />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -16,14 +16,15 @@
        CUSTOM PROPERTIES / DESIGN TOKENS
        ============================================ */
     :root {
-      --primary: #EE2E31;
-      --primary-hover: #d42528;
-      --primary-dark: #b81e20;
+      --primary: #08A045;
+      --primary-hover: #078A3C;
+      --primary-dark: #067232;
       --parchment: #F4EDEA;
       --parchment-dark: #E8DDD8;
-      --black: #0D0D0D;
-      --black-light: #1A1A1A;
+      --black: #F2F4FF;
+      --black-light: #E0E5FF;
       --white: #FFFFFF;
+      --text-dark: #0D0D0D;
       --gray-100: #F5F5F5;
       --gray-300: #C4C4C4;
       --gray-500: #6B6B6B;
@@ -63,8 +64,8 @@
       font-weight: 400;
       font-size: 16px;
       line-height: 1.6;
-      color: var(--black);
-      background-color: var(--white);
+      color: var(--text-dark);
+      background-color: var(--text-dark);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
@@ -208,7 +209,7 @@
     .btn-primary:hover {
       background-color: var(--primary-hover);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(238, 46, 49, 0.3);
+      box-shadow: 0 8px 24px rgba(8, 160, 69, 0.3);
     }
 
     .btn-primary:active {
@@ -217,25 +218,25 @@
 
     .btn-outline {
       background: transparent;
-      color: var(--white);
+      color: var(--text-dark);
       border: 2px solid var(--white);
     }
 
     .btn-outline:hover {
       background: var(--white);
-      color: var(--black);
+      color: var(--text-dark);
       transform: translateY(-2px);
     }
 
     .btn-outline-dark {
       background: transparent;
-      color: var(--black);
-      border: 2px solid var(--black);
+      color: var(--text-dark);
+      border: 2px solid var(--text-dark);
     }
 
     .btn-outline-dark:hover {
-      background: var(--black);
-      color: var(--white);
+      background: var(--text-dark);
+      color: var(--text-dark);
       transform: translateY(-2px);
     }
 
@@ -257,7 +258,7 @@
       font-size: 36px;
       line-height: 1.15;
       letter-spacing: -0.01em;
-      color: var(--black);
+      color: var(--text-dark);
       margin-bottom: 16px;
     }
 
@@ -278,15 +279,15 @@
       right: 0;
       z-index: 1000;
       height: var(--nav-height);
-      background: rgba(13, 13, 13, 0.92);
+      background: rgba(242, 244, 255, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(13, 13, 13, 0.06);
       transition: background 0.3s ease, box-shadow 0.3s ease;
     }
 
     .navbar.scrolled {
-      background: rgba(13, 13, 13, 0.97);
+      background: rgba(242, 244, 255, 0.97);
       box-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
     }
 
@@ -301,7 +302,7 @@
       font-family: var(--font-headline);
       font-weight: 800;
       font-size: 22px;
-      color: var(--white);
+      color: var(--text-dark);
       letter-spacing: 0.02em;
       display: flex;
       align-items: center;
@@ -325,7 +326,7 @@
       font-family: var(--font-body);
       font-weight: 500;
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(13, 13, 13, 0.7);
       letter-spacing: 0.02em;
       transition: color 0.2s ease;
       position: relative;
@@ -343,7 +344,7 @@
     }
 
     .navbar__link:hover {
-      color: var(--white);
+      color: var(--text-dark);
     }
 
     .navbar__link:hover::after {
@@ -397,7 +398,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(13, 13, 13, 0.98);
+      background: rgba(242, 244, 255, 0.98);
       z-index: 999;
       padding: 40px 24px;
       flex-direction: column;
@@ -413,7 +414,7 @@
       font-family: var(--font-headline);
       font-size: 28px;
       font-weight: 600;
-      color: var(--white);
+      color: var(--text-dark);
       transition: color 0.2s ease;
     }
 
@@ -443,8 +444,8 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(13, 13, 13, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13, 13, 13, 0.03) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
     }
@@ -490,8 +491,8 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(238, 46, 49, 0.12);
-      border: 1px solid rgba(238, 46, 49, 0.25);
+      background: rgba(8, 160, 69, 0.12);
+      border: 1px solid rgba(8, 160, 69, 0.25);
       padding: 6px 14px;
       border-radius: 2px;
       margin-bottom: 24px;
@@ -524,7 +525,7 @@
       font-weight: 800;
       font-size: 48px;
       line-height: 1.05;
-      color: var(--white);
+      color: var(--text-dark);
       letter-spacing: -0.02em;
       margin-bottom: 20px;
     }
@@ -536,7 +537,7 @@
     .hero__subtitle {
       font-size: 17px;
       line-height: 1.7;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(13, 13, 13, 0.6);
       margin-bottom: 36px;
       max-width: 480px;
     }
@@ -665,8 +666,8 @@
       flex-shrink: 0;
       width: 40px;
       height: 40px;
-      background: rgba(238, 46, 49, 0.08);
-      border: 1px solid rgba(238, 46, 49, 0.15);
+      background: rgba(8, 160, 69, 0.08);
+      border: 1px solid rgba(8, 160, 69, 0.15);
       border-radius: 3px;
       display: flex;
       align-items: center;
@@ -684,7 +685,7 @@
       font-weight: 600;
       font-size: 18px;
       margin-bottom: 4px;
-      color: var(--black);
+      color: var(--text-dark);
     }
 
     .problem-item__content p {
@@ -739,7 +740,7 @@
       font-weight: 600;
       font-size: 18px;
       margin-bottom: 4px;
-      color: var(--black);
+      color: var(--text-dark);
     }
 
     .solution-item__content p {
@@ -763,7 +764,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 16px rgba(238, 46, 49, 0.3);
+      box-shadow: 0 4px 16px rgba(8, 160, 69, 0.3);
     }
 
     .ps-divider__arrow svg {
@@ -821,7 +822,7 @@
     .feature-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-      border-color: rgba(238, 46, 49, 0.15);
+      border-color: rgba(8, 160, 69, 0.15);
     }
 
     .feature-card:hover::before {
@@ -831,7 +832,7 @@
     .feature-card__icon {
       width: 48px;
       height: 48px;
-      background: rgba(238, 46, 49, 0.08);
+      background: rgba(8, 160, 69, 0.08);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -849,7 +850,7 @@
       font-family: var(--font-headline);
       font-weight: 600;
       font-size: 19px;
-      color: var(--black);
+      color: var(--text-dark);
       margin-bottom: 8px;
     }
 
@@ -905,7 +906,7 @@
       font-family: var(--font-headline);
       font-weight: 800;
       font-size: 42px;
-      color: var(--white);
+      color: var(--text-dark);
       line-height: 1.1;
       margin-bottom: 8px;
       letter-spacing: -0.02em;
@@ -988,7 +989,7 @@
       font-family: var(--font-headline);
       font-weight: 600;
       font-size: 15px;
-      color: var(--black);
+      color: var(--text-dark);
     }
 
     .testimonial-card__info p {
@@ -1030,12 +1031,12 @@
     }
 
     .cta-final__text .section-title {
-      color: var(--white);
+      color: var(--text-dark);
       margin-bottom: 12px;
     }
 
     .cta-final__text .section-subtitle {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(13, 13, 13, 0.5);
     }
 
     .cta-final__form {
@@ -1049,7 +1050,7 @@
       font-family: var(--font-headline);
       font-weight: 600;
       font-size: 22px;
-      color: var(--white);
+      color: var(--text-dark);
       margin-bottom: 24px;
     }
 
@@ -1073,9 +1074,9 @@
       width: 100%;
       padding: 12px 16px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(13, 13, 13, 0.1);
       border-radius: 3px;
-      color: var(--white);
+      color: var(--text-dark);
       font-size: 15px;
       transition: border-color 0.3s ease, background 0.3s ease;
     }
@@ -1109,7 +1110,7 @@
     .footer {
       background: var(--black);
       padding: 48px 0 32px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid rgba(13, 13, 13, 0.06);
     }
 
     .footer__content {
@@ -1122,7 +1123,7 @@
       font-family: var(--font-headline);
       font-weight: 800;
       font-size: 20px;
-      color: var(--white);
+      color: var(--text-dark);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -1143,18 +1144,18 @@
 
     .footer__link {
       font-size: 14px;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(13, 13, 13, 0.5);
       transition: color 0.2s ease;
     }
 
     .footer__link:hover {
-      color: var(--white);
+      color: var(--text-dark);
     }
 
     .footer__divider {
       width: 100%;
       height: 1px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(13, 13, 13, 0.06);
     }
 
     .footer__bottom {
@@ -1296,9 +1297,8 @@
        ============================================ -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
     <div class="container">
-      <a href="#" class="navbar__logo" aria-label="CCJ Solutions — Inicio">
-        <span class="navbar__logo-mark"></span>
-        CCJ Solutions
+      <a href="#" class="navbar__logo" aria-label="EvoBike — Inicio">
+        <img src="./assets/logos/logo_evobike_transparent.png" alt="EvoBike Logo" style="height: 32px; width: auto;" />
       </a>
 
       <ul class="navbar__links" role="list">
@@ -1347,14 +1347,14 @@
               Control total de tu <span>taller automotriz</span>
             </h1>
             <p class="hero__subtitle">
-              CCJ Solutions centraliza la entrada, seguimiento y reparación de vehículos en una sola plataforma. Menos errores, más productividad.
+              EvoBike centraliza la entrada, seguimiento y reparación de vehículos en una sola plataforma. Menos errores, más productividad.
             </p>
             <div class="hero__actions">
               <a href="#contacto" class="btn btn-primary">Solicitar Demo</a>
 
             </div>
           </div>
-          <img src="./assets/hero_image.png" alt="Plataforma de gestión de CCJ Solutions" class="hero__image fade-in" style="transition-delay: 0.15s;" />
+          <img src="./assets/hero_image.png" alt="Plataforma de gestión de EvoBike" class="hero__image fade-in" style="transition-delay: 0.15s;" />
         </div>
       </div>
     </section>
@@ -1446,7 +1446,7 @@
           <!-- Columna: Soluciones -->
           <div class="solutions fade-in-right">
             <span class="section-label">La solución</span>
-            <h2 class="section-title">CCJ organiza cada paso, desde el ingreso hasta la entrega</h2>
+            <h2 class="section-title">EvoBike organiza cada paso, desde el ingreso hasta la entrega</h2>
             <div class="solutions__list">
               <div class="solution-item">
                 <div class="solution-item__icon">
@@ -1496,7 +1496,7 @@
         <div class="features__header fade-in">
           <span class="section-label">Funcionalidades</span>
           <h2 class="section-title">Todo lo que tu taller necesita, en un solo lugar</h2>
-          <p class="section-subtitle">Cada módulo de CCJ fue diseñado pensando en las operaciones reales de talleres automotrices en LATAM.</p>
+          <p class="section-subtitle">Cada módulo de EvoBike fue diseñado pensando en las operaciones reales de talleres automotrices en LATAM.</p>
         </div>
         <div class="features__grid stagger-children">
           <!-- Card 1 -->
@@ -1588,7 +1588,7 @@
             <div class="stat-item__value" data-target="200" data-suffix="" data-prefix="+">
               +<span class="counter">0</span>
             </div>
-            <p class="stat-item__label">talleres activos usando CCJ</p>
+            <p class="stat-item__label">talleres activos usando EvoBike</p>
           </div>
           <div class="stat-item">
             <div class="stat-item__value" data-target="100" data-suffix="%" data-prefix="">
@@ -1607,14 +1607,14 @@
       <div class="container">
         <div class="testimonials__header fade-in">
           <span class="section-label">Testimonios</span>
-          <h2 class="section-title">Lo que dicen quienes ya usan CCJ</h2>
+          <h2 class="section-title">Lo que dicen quienes ya usan EvoBike</h2>
           <p class="section-subtitle">Talleres y empresas automotrices que transformaron su operación diaria.</p>
         </div>
         <div class="testimonials__grid stagger-children">
           <!-- Testimonial 1 -->
           <div class="testimonial-card">
             <div class="testimonial-card__quote-mark">"</div>
-            <p class="testimonial-card__text">Antes perdíamos vehículos en el patio. Literalmente no sabíamos cuántos teníamos. Con CCJ, cada auto tiene su ficha desde que cruza la puerta.</p>
+            <p class="testimonial-card__text">Antes perdíamos vehículos en el patio. Literalmente no sabíamos cuántos teníamos. Con EvoBike, cada auto tiene su ficha desde que cruza la puerta.</p>
             <div class="testimonial-card__author">
               <img src="./assets/avatars/avatar_1.jpg" alt="Carlos Mendoza" class="testimonial-card__photo" />
               <div class="testimonial-card__info">
@@ -1660,7 +1660,7 @@
           <div class="cta-final__text fade-in-left">
             <span class="section-label" style="color: var(--primary);">Comienza hoy</span>
             <h2 class="section-title" style="font-size: 40px;">¿Listo para ordenar tu taller?</h2>
-            <p class="section-subtitle">Agenda una demo personalizada con nuestro equipo. Te mostramos cómo CCJ se adapta a la operación de tu taller en menos de 30 minutos.</p>
+            <p class="section-subtitle">Agenda una demo personalizada con nuestro equipo. Te mostramos cómo EvoBike se adapta a la operación de tu taller en menos de 30 minutos.</p>
 
             <div style="margin-top: 40px; display: flex; flex-direction: column; gap: 20px;">
               <div style="display: flex; align-items: center; gap: 12px;">
@@ -1720,8 +1720,7 @@
     <div class="container">
       <div class="footer__content">
         <a href="#" class="footer__logo">
-          <span class="footer__logo-mark"></span>
-          CCJ Solutions
+          <img src="./assets/logos/logo_evobike_transparent.png" alt="EvoBike Logo" style="height: 32px; width: auto;" />
         </a>
         <nav class="footer__links" aria-label="Links del footer">
           <a href="#funcionalidades" class="footer__link">Producto</a>
@@ -1732,7 +1731,7 @@
       </div>
       <div class="footer__divider" style="margin: 24px 0;"></div>
       <div class="footer__bottom">
-        <p class="footer__copyright">&copy; 2025 CCJ Solutions. Todos los derechos reservados.</p>
+        <p class="footer__copyright">&copy; 2025 EvoBike. Todos los derechos reservados.</p>
         <p class="footer__credits">Hecho para talleres que quieren crecer</p>
       </div>
     </div>
